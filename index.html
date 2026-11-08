@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rental Mobil Neil Nusantara Update - Sistem Manajemen</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="stylesheet" href="css/style.css">
+
+  <style>
+    body { background-color: #0b1120 !important; color: #f8fafc !important; }
+    .bg-white, .bg-slate-50, .bg-gray-50 { background-color: #1e293b !important; color: #f1f5f9 !important; border-color: #334155 !important; }
+    .text-gray-800, .text-gray-900, .text-slate-800 { color: #f8fafc !important; }
+    .text-gray-600, .text-gray-500, .text-slate-500 { color: #94a3b8 !important; }
+    .bg-emerald-600, .bg-green-600, button[type="submit"] { background-color: #f59e0b !important; color: #0f172a !important; font-weight: bold !important; }
+    .text-emerald-600, .text-green-600 { color: #fbbf24 !important; }
+    input, select, textarea { background-color: #0b1120 !important; color: #ffffff !important; border-color: #475569 !important; }
+  </style>
+  
+</head>
+<body class="bg-slate-900 text-slate-100 min-h-screen flex items-center justify-center p-4">
+
+    <div class="bg-slate-800 border border-slate-700 w-full max-w-md rounded-3xl p-6 sm:p-8 shadow-2xl space-y-6">
+        <div class="text-center space-y-2">
+            <div class="w-16 h-16 bg-gradient-to-tr from-emerald-600 to-teal-500 rounded-2xl mx-auto flex items-center justify-center text-white shadow-lg shadow-emerald-600/30 mb-3">
+                <i data-lucide="shield-check" class="w-8 h-8"></i>
+            </div>
+            <h1 class="text-2xl font-black tracking-tight text-white">Finance Master Pro</h1>
+            <p class="text-xs text-slate-400">Portal Akses Multi-Device (PC Kasir & Mobile HP)</p>
+        </div>
+
+        <form onsubmit="doLogin(event)" class="space-y-4">
+            <div>
+                <label class="text-xs font-bold text-slate-300 block mb-1.5">Pilih Jabatan / Role</label>
+                <select id="login-role" class="w-full bg-slate-700 border border-slate-600 rounded-xl p-3 text-sm text-white font-medium outline-none focus:ring-2 focus:ring-emerald-500">
+                    <option value="staff">1. Admin / Kasir (Dioptimalkan untuk PC Kasir)</option>
+                    <option value="manager">2. Manager / Supervisor (Mobile & Kelola COA)</option>
+                    <option value="owner">3. Owner (Akses Pantau Laporan Lengkap - Read Only)</option>
+                </select>
+            </div>
+
+            <div>
+                <label class="text-xs font-bold text-slate-300 block mb-1.5">PIN Akses Keamanan</label>
+                <input type="password" id="login-pin" maxlength="6" placeholder="Masukkan PIN" class="w-full bg-slate-700 border border-slate-600 rounded-xl p-3.5 text-base text-center tracking-widest text-white font-black outline-none focus:ring-2 focus:ring-emerald-500" required>
+            </div>
+
+            <div class="bg-slate-700/50 p-3 rounded-xl border border-slate-600/60 text-xs text-slate-300 space-y-1">
+                <p class="font-bold text-emerald-400">Petunjuk Akses Default:</p>
+                <div class="grid grid-cols-3 gap-1 text-[11px] font-mono text-center pt-1">
+                    <div class="bg-slate-800 p-1.5 rounded">Kasir: <span class="font-bold text-white">1111</span></div>
+                    <div class="bg-slate-800 p-1.5 rounded">Mgr: <span class="font-bold text-white">5678</span></div>
+                    <div class="bg-slate-800 p-1.5 rounded">Owner: <span class="font-bold text-white">1234</span></div>
+                </div>
+            </div>
+
+            <button type="submit" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3.5 rounded-xl text-sm transition shadow-lg shadow-emerald-600/30 flex items-center justify-center space-x-2">
+                <i data-lucide="log-in" class="w-4 h-4"></i>
+                <span>Masuk ke Laman Khusus</span>
+            </button>
+        </form>
+    </div>
+
+    <script src="js/config.js?v=18.0"></script>
+    <script src="js/core.js?v=18.0"></script>
+    <script>
+        lucide.createIcons();
+        function doLogin(e) {
+            e.preventDefault();
+            const role = document.getElementById('login-role').value;
+            const pin = document.getElementById('login-pin').value.trim();
+
+            const target = ROLES[role];
+            if (target && target.pin === pin) {
+                localStorage.setItem('fm_session_user_v13', JSON.stringify({
+                    role: role,
+                    title: target.title
+                }));
+                window.location.href = target.redirect;
+            } else {
+                alert("PIN salah! Silakan periksa kembali.");
+            }
+        }
+    </script>
+</body>
+</html>
